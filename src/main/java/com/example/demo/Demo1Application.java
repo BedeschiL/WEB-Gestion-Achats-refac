@@ -3,6 +3,8 @@ package com.example.demo;
 import com.example.demo.Models.Item;
 import com.example.demo.Models.TVA;
 import com.example.demo.Models.Users;
+import com.example.demo.RabbitMQ.recv;
+import com.example.demo.RabbitMQ.send;
 import com.example.demo.Repo.ItemRepository;
 import com.example.demo.Repo.TVARepository;
 import com.example.demo.Repo.UsersRepository;
@@ -33,6 +35,7 @@ public class Demo1Application {
     }
 
 
+
     @Bean
     public CommandLineRunner demo(UsersRepository usrRep, ItemRepository itemRep) {
 
@@ -50,6 +53,8 @@ public class Demo1Application {
             TVARepository.save(tva);
             TVARepository.save(tva2);
 
+
+
             usrRep.save(usr);
             usrRep.save(usr2);
             //endregion
@@ -59,6 +64,10 @@ public class Demo1Application {
             Item item1 = new Item("Oui oui a la ferme","Livres",5f,5);
             itemRep.save(item0);
             itemRep.save(item1);
+            recv recv = new recv("reponse");
+            recv.run();
+
+
 
 
             //endregion

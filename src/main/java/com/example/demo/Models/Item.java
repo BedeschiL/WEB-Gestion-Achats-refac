@@ -15,8 +15,6 @@ public class Item {
     private Long idItem;
     @Column(nullable = false)
     private String nom;
-
-
     @Column(nullable = false)
     private String categorie;
     @Column(nullable = false)

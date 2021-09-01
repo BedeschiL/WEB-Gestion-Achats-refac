@@ -59,9 +59,6 @@ public class finalizeCommandController {
 
 
 
-
-
-
         ///////CALL API TAX
         System.out.printf("PATH API" + pathApi);
             HttpGet requestHttp = new HttpGet(pathApi);

@@ -5,6 +5,7 @@ import com.example.demo.Models.Commande;
 import com.example.demo.Models.Item;
 import com.example.demo.Models.Panier;
 import com.example.demo.Models.Users;
+import com.example.demo.RabbitMQ.send;
 import com.example.demo.Repo.CommandeRepository;
 import com.example.demo.Repo.ItemRepository;
 import com.example.demo.Repo.PanierRepository;
@@ -55,17 +56,18 @@ public class PanierController {
         {
             System.out.println("Cmd");
             System.out.println("Cmd Id " + cmd.getId());
-            model.addAttribute("cmd", cmd);
+
         }
         System.out.println("END PANIER");
         System.out.println("-------------------");
+        model.addAttribute("cmd", cmd);
         model.addAttribute("panier", panierRepository.findPanierByUsersAndCmd(client,cmd));
         return "panier";
     }
     //endregion
     //region ADDITEM
     @GetMapping("/additem")
-    public String additem(HttpServletRequest request, @RequestParam(value = "id", defaultValue = "fail") String id, @RequestParam(value = "quantite", defaultValue = "uninit") String quantite, Model model)
+    public String additem(HttpServletRequest request, @RequestParam(value = "id", defaultValue = "fail") String id, @RequestParam(value = "quantite", defaultValue = "default") String quantite, Model model)
     {
         System.out.println("-------------------");
         System.out.println("ADD ITEM");
@@ -76,10 +78,17 @@ public class PanierController {
         Set<Commande> commandes = commandeRepository.findCommandesByUsersAndPaiementEffectue(client, false);
         if(commandes.isEmpty()) {
             System.out.println("ADD ITEM VIDE");
-         cmd = new Commande(client);
+            cmd = new Commande(client);
             commandeRepository.save(cmd);
             Item item = itemRepository.findItemByidItem(Long.valueOf(id));
             item.setQuantite((item.getQuantite())-Integer.parseInt(quantite));
+            System.out.println("QUANTITE"  + item.getQuantite() + "   QUANTITE -" + quantite);
+            if(item.getQuantite()==0)
+            {
+                send s = new send("demande",item.getId().toString());
+                s.send();
+
+            }
             itemRepository.save(item);
             Panier pan = new Panier(Integer.parseInt(quantite),item,client,cmd);
             panierRepository.save(pan);
@@ -89,6 +98,16 @@ public class PanierController {
             System.out.println("ELSE ADD ITEM");
             Item item = itemRepository.findItemByidItem(Long.valueOf(id));
             item.setQuantite((item.getQuantite())-Integer.parseInt(quantite));
+            System.out.println("QUANTITE"  + item.getQuantite() + "   QUANTITE -" + quantite);
+            if(item.getQuantite()==0)
+            {
+
+                send s = new send("demande",item.getId().toString());
+                s.send();
+
+            }
+
+
             itemRepository.save(item);
             Panier pan = new Panier(Integer.parseInt(quantite),item,client,cmd);
             panierRepository.save(pan);

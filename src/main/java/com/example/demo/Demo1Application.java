@@ -61,8 +61,10 @@ public class Demo1Application {
             //region Articles
             // public Item( String nom, String categorie, float prix, Integer quantite)
             Item item0 = new Item("Star wars Legacy","Livres",14.5f,15);
-            Item item1 = new Item("Oui oui a la ferme","Livres",5f,5);
+            Item item1 = new Item("The mandalorian","Films",5f,5);
+            Item item2 = new Item("Oui oui a la ferme","Livres",5f,5);
             itemRep.save(item0);
+            itemRep.save(item2);
             itemRep.save(item1);
             recv recv = new recv("reponse");
             recv.run();

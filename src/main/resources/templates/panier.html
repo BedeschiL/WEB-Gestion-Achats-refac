@@ -114,7 +114,12 @@
 <div>
     <br> <br>
     <div> <label th:text="'Cmd   : ' + ${cmd.getId()}"/></div>
-
+    <br>
+    <input type="radio" id="express" name="prixlivraison" value="10">
+    <label for="express">Livraison express</label>
+    <input type="radio" id="normal" name="prixlivraison" value="5">
+    <label for="normal">Livraison normale</label>
+    <input type="submit" value="Valider">
     <form th:action="@{/finalizeCommand}" method="get">
         <div><input name="idComm" type="hidden" th:value="${cmd.getId()}" /></div>
         <div><input type="submit" value="Finaliser la commande" /></div>

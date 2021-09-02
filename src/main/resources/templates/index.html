@@ -124,6 +124,11 @@
     <form th:action="@{/additem}" method="get">
         <div><input name="id" type="hidden" th:value="${items.getId()}" /></div>
         <input name="quantite" type="number" min="1" value="1" th:max="${items.getQuantite()}"/>
+        <br>
+        <td>
+
+            <span th:bgcolor="red" th:if="${items.getQuantite() == 0}"style="color:red">Il n'y a plus d'item !</span>
+        </td>
           <div><input type="submit" value="Ajouter au panier" /></div><hr>
     </form>
 </div>

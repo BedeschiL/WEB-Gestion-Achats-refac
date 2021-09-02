@@ -5,7 +5,6 @@ import com.example.demo.Models.Panier;
 import com.example.demo.Repo.CommandeRepository;
 import com.example.demo.Repo.ItemRepository;
 import com.example.demo.Repo.PanierRepository;
-import eu.dattri.jsonbodyhandler.JsonBodyHandler;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -47,7 +46,7 @@ public class finalizeCommandController {
     PanierRepository panierRepository;
 
     @GetMapping("/finalizeCommand")
-    public String home(HttpServletRequest request, @RequestParam(value = "idComm", defaultValue = "IdCommDefault") String idComm, ModelMap modelMap)
+    public String home(HttpServletRequest request, @RequestParam(value = "idComm", defaultValue = "IdCommDefault") String idComm, @RequestParam(value = "prixlivraison", defaultValue = "prixdef") String prixLiv , ModelMap modelMap)
     {
 
         System.out.println("----------");
@@ -135,6 +134,7 @@ public class finalizeCommandController {
         } catch (IOException e) {
                 e.printStackTrace();
             }
+        total = total +  Float.parseFloat(prixLiv);
         System.out.println("TOTAL" + total);
             ///
         modelMap.addAttribute("total",total);
